@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="003-rename-fieldFlow1" doc:id="95f75c2b-bd9b-4068-82c0-8a2a0851d082" >
+		<http:listener doc:name="Listener" doc:id="c0f1d98f-05d6-460c-bec8-750d879a34c4" config-ref="HTTP_Listener_config" path="rename-field"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="b9c753d8-c04c-483e-b7f9-43d2308dd642" message="This is the beginning of the rename field flow"/>
+		<set-payload value='#[{&#10;	"firstName": "Omar"&#10;}]' doc:name='{"firstName": "Omar"}' doc:id="6fd37820-1fcb-4c41-b506-7941df045905" />
+		<ee:transform doc:name="payload" doc:id="bd0b025b-0031-4ee8-87ab-bcf344181390" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Ali" doc:id="82143443-6fd2-4b5b-92cf-7cb335e37582" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"firstName": "Ali"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Log" doc:id="434e9f38-0c88-4ca2-8575-dbb7a9761d14" message="This is the end of the rename field flow [#[payload]"/>
+	</flow>
+</mule>
