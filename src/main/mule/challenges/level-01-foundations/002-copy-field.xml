@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="002-copy-fieldFlow" doc:id="db1c2e59-baf1-4bb7-ae67-823fb84c029a" >
+		<http:listener doc:name="Listener" doc:id="7c45f090-39c1-4ff1-83d8-b40d0580fb1b" config-ref="HTTP_Listener_config" path="copy-field"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="d599d12a-1efd-4d5f-b78c-075d10d40bc3" message="This is the start of the copy field flow"/>
+		<set-payload value='#[{&#10;	"firstName": "Ali"&#10;}]' doc:name='{"firstName": "Ali"}' doc:id="1f281914-d653-4093-b5c4-b006afaa0257" />
+		<ee:transform doc:name="Ali" doc:id="6734e599-2a2e-4c4e-ba70-678830a4a551" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload.firstName]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Log" doc:id="63da6752-adff-4e52-88f7-6c9f463007d4" message="This is the end of the copy field flow"/>
+	</flow>
+</mule>
