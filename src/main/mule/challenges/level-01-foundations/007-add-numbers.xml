@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="007-add-numbersFlow" doc:id="ccb008ed-274b-4f32-bdb6-9aed2b4f747c" >
+		<http:listener doc:name="Listener" doc:id="434457ca-8d8b-49e2-98e0-08418125b798" config-ref="HTTP_Listener_config" path="add-numbers"/>
+		<set-payload value='#[{"price":45.5,"tax":3.64}]' doc:name='{"price":45.5,"tax":3.64}' doc:id="01598678-ee27-4668-9c8e-3bec66ac437f" />
+		<ee:transform doc:name="Transform Message" doc:id="937cb372-8215-45aa-b7c7-d4e7241f6234" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Taxes": payload.tax + payload.price
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Log" doc:id="1fcf4abf-464f-4ceb-8b1b-6de18263a0ff" message='This is the end of the add numbers flow #[payload]'/>
+	</flow>
+</mule>
