@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="006-lowercase-emailFlow" doc:id="8e732207-951d-4afd-abb0-cd145c7a2155" >
+		<http:listener doc:name="Listener" doc:id="2c846d74-b7ba-4f88-94ab-1138cb48df59" config-ref="HTTP_Listener_config" path="lowercase-email"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="739eafc9-0aeb-4bef-b075-0ad65f73becd" message="This is the beginning of the start log"/>
+		<set-payload value='#[{"email":"ALI@EXAMPLE.COM"}]' doc:name='{"email":"ALI@EXAMPLE.COM"}' doc:id="6b52f861-1217-456a-998f-e4ac3bd24274" />
+	</flow>
+</mule>

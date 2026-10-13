@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="005-uppercase-textFlow" doc:id="6a47fb88-e5f6-493f-94ca-d03fd7efd1a6" >
+		<http:listener doc:name="Listener" doc:id="64e1d6de-2225-4237-9d58-dc87ca9a258c" config-ref="HTTP_Listener_config" path="uppercase-text"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="5e95a651-1e6d-4915-837f-e690f2e2b519" message="This is the beginning of the uppercase text flow"/>
+		<set-payload value='#[{"department":"customer service"}]' doc:name='{"department":"customer service"}' doc:id="dbbd50bd-7fb9-4810-9e36-9c21fbb8f150" />
+		<ee:transform doc:name='{"department": upper(payload.department)}' doc:id="6d44e679-6549-4aba-9f8f-a9e2ef80e465" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"department": upper(payload.department)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Start Log" doc:id="5c372d89-1515-41b9-adaa-5215105a8a6b" message="This is the end of the uppercase text flow"/>
+	</flow>
+</mule>
