@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="008-multiply-valuesFlow" doc:id="4e030405-d83e-4a0f-b38b-595664d858c5" >
 		<http:listener doc:name="Listener" doc:id="eca2cbcc-065d-438a-8cfe-b6e92d3dc000" config-ref="HTTP_Listener_config" path="multiply-values"/>
 		<logger level="INFO" doc:name="Start Log" doc:id="4d60bf78-b61b-4225-917b-11a3c1bfee3f" message="This is the start of the  multiply values flow"/>
 		<set-payload value='#[{"price":12.5,"quantity":4}]' doc:name='{"price":12.5,"quantity":4}' doc:id="64b10131-315c-41d2-9f71-75e24e442395" />
+		<ee:transform doc:name='{"Total": payload.price * payload.quantity}' doc:id="fc38e0db-de63-4995-a639-0a79e0b5f616" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Total": payload.price * payload.quantity
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Log" doc:id="838d52c7-7179-4640-82eb-ccbfec7c65a5" message="This is the end of the multiply values flow #[payload]"/>
 	</flow>
 </mule>
