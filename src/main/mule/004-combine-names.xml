@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="004-combine-namesFlow" doc:id="4947df7d-1805-40c0-a036-b2b85040200f" >
+		<http:listener doc:name="Listener" doc:id="d3531d1b-2f80-4926-900c-482cf0bc573c" config-ref="HTTP_Listener_config" path="combine-names"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="3bab36a8-d61e-4756-87df-bafed89a4d3d" message="This is the beginning of the combine names flow"/>
+		<set-payload value='#[{"firstName":"Ali","lastName":"Sills"}]' doc:name='{"firstName":"Ali","lastName":"Sills"}' doc:id="22c7de80-3b34-4d3a-b8ed-2166e608c428" />
+		<ee:transform doc:name="Transform Message" doc:id="ea9ca843-5c94-4c75-8474-cdcc50c87b81" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"fullName": payload.firstName ++ " " ++ payload.lastName
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Log" doc:id="b8b64204-7620-4bbd-b24a-e907aa8c30be" message="This is the end of the combine names flow"/>
+	</flow>
+</mule>
