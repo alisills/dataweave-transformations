@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="014-nest-addressFlow" doc:id="d6cb75a9-4488-4389-8305-4641cee2596b" >
+		<http:listener doc:name="Listener" doc:id="845dfbec-0b05-4c91-9641-050d8f50ae8c" config-ref="HTTP_Listener_config" path="nest-address" allowedMethods="GET"/>
+		<set-payload value='#[{"street":"100 Example Lane","city":"Richmond"}]' doc:name='{"street":"100 Example Lane","city":"Richmond"}' doc:id="df1aa477-f3f8-49ae-a296-1b11e9f8b1ab" />
+		<ee:transform doc:name="{address: payload}" doc:id="3f326905-3cce-4785-bd3e-8455755f691e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	address: payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
