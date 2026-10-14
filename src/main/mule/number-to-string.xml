@@ -4,9 +4,9 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<flow name="010-string-to-numberFlow" doc:id="f288e64c-e01f-479c-b5a3-91d96f04b305" >
-		<http:listener doc:name="Listener" doc:id="96250672-7a43-43dc-8ff7-df0c528f7a91" config-ref="HTTP_Listener_config" path="string-to-number"/>
-		<logger level="INFO" doc:name="Start Log" doc:id="e54546a8-3600-4584-a9ff-69805e273e60" message="This is the start of the string to number flow"/>
-		<set-payload value='#[{"age":"32"}]' doc:name='{"age":"32"}' doc:id="dbcc16a2-5f0f-4ef1-ab47-29a46955fd47" />
+	<flow name="number-to-stringFlow" doc:id="6f5e17d0-ba8d-4b05-b2d4-03567020c824" >
+		<http:listener doc:name="Listener" doc:id="cb103693-3d43-49b7-a8a9-629140b1824d" config-ref="HTTP_Listener_config" path="number-to-string"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="0c065388-96b9-46de-b97e-66e4aed53e6c" message="This is the beginning of the number to string flow"/>
+		<set-payload value='#[{"customerId":12345}]' doc:name='{"customerId":12345}' doc:id="78c018a5-8153-4c08-bdbb-325a4a5ffc29" />
 	</flow>
 </mule>
