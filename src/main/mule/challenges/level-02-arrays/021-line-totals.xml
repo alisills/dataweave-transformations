@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="021-line-totalsFlow" doc:id="1552b19e-ee51-4948-8268-427708f89808" >
+		<http:listener doc:name="Listener" doc:id="57f7e1e6-185f-432a-bcde-0e9bc9b3c297" config-ref="HTTP_Listener_config" path="line-totals"/>
+		<!-- [STUDIO:"For each line item, return price × qty as total."]<set-payload value="#[payload&#93;" doc:name="For each line item, return price × qty as total." doc:id="b2ca8ccc-99f4-4bf8-99eb-9c80d4d50afd" /> [STUDIO] -->
+		<set-payload value='#[[{"sku":"P1","price":25,"qty":2},{"sku":"P2","price":12.5,"qty":4},{"sku":"P3","price":10,"qty":0}]]' doc:name='[{"sku":"P1","price":25,"qty":2},{"sku":"P2","price":12.5,"qty":4},{"sku":"P3","price":10,"qty":0}]' doc:id="27c5124d-8f00-4f9c-811d-ae0901abbbc8" />
+		<ee:transform doc:name='payload map (d) -&gt;&#10;   d ++ {&#10;       "total": d.price * d.qty&#10;    }' doc:id="aa43be95-b6c8-45e2-bd03-ea65737a6a2f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (d) ->
+   d ++ {
+       "total": d.price * d.qty
+    }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

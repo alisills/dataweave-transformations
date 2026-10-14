@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="020-rename-array-fieldsFlow" doc:id="3431e47e-6cc3-4ed6-86b5-4a02fbd9d96f" >
+		<http:listener doc:name="Listener" doc:id="d7cc9377-0df7-4ced-9649-25b371afc025" config-ref="HTTP_Listener_config" path="rename-array-fields"/>
+		<!-- [STUDIO:"Rename first_name to firstName for every record."]<set-payload value="#[payload&#93;" doc:name="Rename first_name to firstName for every record." doc:id="aeb0812a-1fe7-41f8-8e64-590e152deaf7" /> [STUDIO] -->
+		<set-payload value='#[[{"id":"C1","first_name":"Ali"},{"id":"C2","first_name":"Omar"}]]' doc:name='[{"id":"C1","first_name":"Ali"},{"id":"C2","first_name":"Omar"}]' doc:id="bc732147-b23f-43cb-b0e4-1cdd6f2c8721" />
+		<ee:transform doc:name="payload map (d) -&gt; {&#10;    id: d.id,&#10;    firstName: d.first_name&#10;}" doc:id="edd9da65-05b3-448b-a0cf-fd1bf8258e94">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (d) -> {
+    id: d.id,
+    firstName: d.first_name
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

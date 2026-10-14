@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="017-second-itemFlow" doc:id="615dc472-f003-4146-9282-70779dda2a0b" >
+		<http:listener doc:name="Listener" doc:id="ac812fca-9503-46cf-a782-fcfdb183922e" config-ref="HTTP_Listener_config" path="second-item"/>
+		<set-payload value='#[["red","blue","green"]]' doc:name='["red","blue","green"]' doc:id="d65c2aa5-284a-44d5-8051-86d1f0c0ce57" />
+		<ee:transform doc:name="payload[1]" doc:id="330f0748-1541-4b59-8719-eb81c1d12dca" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload[1]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

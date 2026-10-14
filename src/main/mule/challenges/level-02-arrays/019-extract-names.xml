@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="019-extract-namesFlow" doc:id="3e72cb92-75c7-4917-8ee6-0db8cb6f1f91" >
+		<http:listener doc:name="Listener" doc:id="e297915f-4fd9-40d2-85a5-be278a9ef355" config-ref="HTTP_Listener_config" path="extract-names"/>
+		<set-payload value='#[[{"id":"C1","name":"Ali","age":17,"email":"ali@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]]' doc:name='[{"id":"C1","name":"Ali","age":17,"email":"ali@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]' doc:id="42917dd9-2536-403f-ae5b-70c82681f8c3" />
+		<ee:transform doc:name="payload.name" doc:id="0c0a4b92-7536-4771-bb31-e6dc9f788390">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload.name]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
