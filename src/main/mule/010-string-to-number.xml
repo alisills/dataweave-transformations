@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="010-string-to-numberFlow" doc:id="f288e64c-e01f-479c-b5a3-91d96f04b305" >
+		<http:listener doc:name="Listener" doc:id="96250672-7a43-43dc-8ff7-df0c528f7a91" config-ref="HTTP_Listener_config" path="string-to-number"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="e54546a8-3600-4584-a9ff-69805e273e60" message="This is the start of the string to number flow"/>
+		<set-payload value='#[{"age":"32"}]' doc:name='{"age":"32"}' doc:id="dbcc16a2-5f0f-4ef1-ab47-29a46955fd47" />
+	</flow>
+</mule>
