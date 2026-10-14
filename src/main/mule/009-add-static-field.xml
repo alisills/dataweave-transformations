@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="009-add-static-fieldFlow" doc:id="74690c62-4075-43b6-ba3d-1b3f351cf1be" >
+		<http:listener doc:name="Listener" doc:id="67a5c88e-346f-4076-97a3-8829c4c9c1b9" config-ref="HTTP_Listener_config" path="add-static-field"/>
+		<logger level="INFO" doc:name="Start Log" doc:id="db2268cf-9cd9-4d61-a140-1dfc15d8d578" message="This is the beginning of the add static field flow"/>
+		<set-payload value='#[{"id":"C1","name":"Ali","active":true}]' doc:name='{"id":"C1","name":"Ali","active":true}' doc:id="adfaed2c-f1d8-4b70-adec-125070149356" />
+	</flow>
+</mule>
