@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="012-string-to-booleanFlow" doc:id="0da7dbc6-d61c-4955-a108-fd4bc5d72b48" >
 		<http:listener doc:name="Listener" doc:id="5f3cf2cd-b8d7-4e9e-a04e-b812ed09dfde" config-ref="HTTP_Listener_config" path="string-to-boolean"/>
-		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="bf338292-cb1d-4e21-92bd-d4254bf3d845" />
+		<set-payload value="#[2]" doc:name="2" doc:id="bf338292-cb1d-4e21-92bd-d4254bf3d845" />
+		<ee:transform doc:name="(payload == 2) as String" doc:id="a4163d3d-54c3-426c-a858-a61deb73c994" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+(payload == 2) as String]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
