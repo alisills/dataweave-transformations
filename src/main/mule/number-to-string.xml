@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="number-to-stringFlow" doc:id="6f5e17d0-ba8d-4b05-b2d4-03567020c824" >
 		<http:listener doc:name="Listener" doc:id="cb103693-3d43-49b7-a8a9-629140b1824d" config-ref="HTTP_Listener_config" path="number-to-string"/>
 		<logger level="INFO" doc:name="Start Log" doc:id="0c065388-96b9-46de-b97e-66e4aed53e6c" message="This is the beginning of the number to string flow"/>
 		<set-payload value='#[{"customerId":12345}]' doc:name='{"customerId":12345}' doc:id="78c018a5-8153-4c08-bdbb-325a4a5ffc29" />
+		<ee:transform doc:name='{"customerId": payload.customerId as String}' doc:id="064d9abf-8b56-492b-b831-b60be53831ea" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"customerId": payload.customerId as String
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="End Log" doc:id="cfb095a9-ee66-4c71-ab89-7f6dc1972147" message="This is the end of the number to string flow"/>
 	</flow>
 </mule>
