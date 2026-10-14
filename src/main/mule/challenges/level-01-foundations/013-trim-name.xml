@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="013-trim-nameFlow" doc:id="f7005da3-5ebe-4345-8e40-dedf2b0da911" >
+		<http:listener doc:name="Listener" doc:id="62908ff7-1c7b-4589-8b76-be708c073676" config-ref="HTTP_Listener_config" path="trim-name"/>
+		<set-payload value='#[{"name":" Ali Sills "}]' doc:name='{"name":" Ali Sills "}' doc:id="e1c8bc3d-aaf0-4746-8f1d-1099d846c9dd" />
+		<ee:transform doc:name='{"name": trim(payload.name)}' doc:id="34fd903b-8850-4d64-9852-1d6e471d1f31" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"name": trim(payload.name)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
