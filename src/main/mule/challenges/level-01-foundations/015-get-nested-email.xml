@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="015-get-nested-emailFlow" doc:id="9d2fdb5d-6d6b-4a1c-8e7c-0019488c0986" >
+		<http:listener doc:name="Listener" doc:id="b581a5a0-2ab5-4eda-880e-b4ded56cbd88" config-ref="HTTP_Listener_config" path="get-nested-email"/>
+		<set-payload value='#[{"customer":{"id":"C1","email":"amina@example.com"}}]' doc:name='{"customer":{"id":"C1","email":"amina@example.com"}}' doc:id="116e7d7a-5597-4d10-9aaa-99c1eb668c25" />
+		<ee:transform doc:name="Transform Message" doc:id="a70579f2-40e7-44a5-8805-feddc2cef3b4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
