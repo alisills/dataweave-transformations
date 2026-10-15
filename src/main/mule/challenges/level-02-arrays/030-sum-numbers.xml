@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="030-sum-numbersFlow" doc:id="b9c17c47-930f-48d4-b486-32955eeb9f57" >
 		<http:listener doc:name="Listener" doc:id="44c9d411-f0f8-4abf-9a85-c0e121b4ba71" config-ref="HTTP_Listener_config" path="sum-numbers" allowedMethods="GET"/>
 		<!-- [STUDIO:"Calculate the total of an array of numbers."]<set-payload value="#[payload&#93;" doc:name="Calculate the total of an array of numbers." doc:id="b2f211ce-72a1-4176-8209-0723d01c78b9" /> [STUDIO] -->
 		<set-payload value="#[[10,20.5,-5,0,4.5]]" doc:name="[10,20.5,-5,0,4.5]" doc:id="0af3e567-c587-42ca-9dbe-71a1697c79ab" />
+		<ee:transform doc:name="sum(payload)" doc:id="67640eed-5e69-4c5f-ae14-e5d9ddf9b49f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+sum(payload)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
