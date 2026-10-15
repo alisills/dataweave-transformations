@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="027-sort-numbersFlow" doc:id="c70827bb-2dea-4a28-8c0a-c77e756f393e" >
-		<http:listener doc:name="Listener" doc:id="b84d5294-5e83-4c9c-aca1-613392ab5c22" config-ref="HTTP_Listener_config" path="sort-numbers"/>
+		<http:listener doc:name="Listener" doc:id="b84d5294-5e83-4c9c-aca1-613392ab5c22" config-ref="HTTP_Listener_config" path="sort-numbers" allowedMethods="GET"/>
 		<!-- [STUDIO:"Sort numeric values ascending."]<set-payload value="#[payload&#93;" doc:name="Sort numeric values ascending." doc:id="dba73fd7-6d47-4d54-b6e6-857a0d1720f3" /> [STUDIO] -->
 		<set-payload value="#[[8,-2,15,0,8,3]]" doc:name="[8,-2,15,0,8,3]" doc:id="3fa07f15-b34b-4e26-884e-ad1038d92ad2" />
+		<ee:transform doc:name="payload orderBy ($)" doc:id="a84db676-6382-4786-b4fe-cde15333560e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload orderBy ($)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
