@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="029-flatten-arrayFlow" doc:id="56eaef88-3ee0-4313-8795-e41a4c4c6e4f" >
 		<http:listener doc:name="Listener" doc:id="dd4d8348-df85-4a93-b07b-084babd2064a" config-ref="HTTP_Listener_config" allowedMethods="GET" path="flatten-array"/>
 		<!-- [STUDIO:"Convert nested arrays into one flat array."]<set-payload value="#[payload&#93;" doc:name="Convert nested arrays into one flat array." doc:id="a26d19ec-5bcb-4518-ae1f-aa47228b06cd" /> [STUDIO] -->
 		<set-payload value="#[[[1,2],[3],[],[4,5]]]" doc:name="[[1,2],[3],[],[4,5]]" doc:id="949569c2-dcc0-44f6-bc02-2d91df132bd1" />
+		<ee:transform doc:name="flatten(payload)" doc:id="aa534fba-f6f5-43c4-86bb-a8e17ecc1b8c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+flatten(payload)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
