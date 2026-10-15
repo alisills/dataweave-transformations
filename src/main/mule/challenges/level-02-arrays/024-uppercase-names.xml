@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="024-uppercase-namesFlow" doc:id="1468f1c2-26d9-44a5-8030-7921c575c129" >
 		<http:listener doc:name="Listener" doc:id="da4d4175-7f59-448a-bf2b-64a9dcb12809" config-ref="HTTP_Listener_config" path="uppercase-names"/>
 		<!-- [STUDIO:"Return uppercase names from an array of objects."]<set-payload value="#[payload&#93;" doc:name="Return uppercase names from an array of objects." doc:id="0a41444d-4a17-4181-9af3-a0ec0cf187cb" /> [STUDIO] -->
 		<set-payload value='#[[{"id":"C1","name":"Ali","age":17,"email":"ali@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]]' doc:name='[{"id":"C1","name":"Ali","age":17,"email":"ali@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]' doc:id="e80d2e4c-8124-46c6-bb46-3b6bc1e3d173" />
+		<ee:transform doc:name="payload map (v, k) -&gt; {&#10;    name: upper(v.name)&#10;}" doc:id="3e4c31ce-9707-4e73-819c-31776fb3777a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v, k) -> {
+    name: upper(v.name)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
