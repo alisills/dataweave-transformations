@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="026-remove-duplicatesFlow" doc:id="2ff49470-36d8-4ea7-87d7-705fe8b12164" >
+		<http:listener doc:name="Listener" doc:id="928a35c7-c37c-4ec3-96d3-71732b054b8b" config-ref="HTTP_Listener_config" allowedMethods="GET" path="find-customer"/>
+		<!-- [STUDIO:"Deduplicate repeated array values."]<set-payload value="#[payload&#93;" doc:name="Deduplicate repeated array values." doc:id="9c9998ea-cb0b-44b0-95ba-c338543dc34b" /> [STUDIO] -->
+		<set-payload value='#[["red","blue","red","green","blue"]]' doc:name='["red","blue","red","green","blue"]' doc:id="3aaa7cdc-3338-422b-9742-eae6e292fc79" />
+		<ee:transform doc:name="payload distinctBy (v, k) -&gt; v" doc:id="442e8175-a149-4a82-8f54-0821f06794f1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload distinctBy (v, k) -> v]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
+
