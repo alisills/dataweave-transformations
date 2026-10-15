@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="025-find-customerFlow" doc:id="ad9deca7-b669-42ec-8c54-8ca5dd9767b2" >
+		<http:listener doc:name="Listener" doc:id="12d1edf2-a44e-4121-b787-97f46cf08935" config-ref="HTTP_Listener_config" allowedMethods="GET" path="find-customer"/>
+		<!-- [STUDIO:"Deduplicate repeated array values."]<set-payload value="#[payload&#93;" doc:name="Deduplicate repeated array values." doc:id="f174f2bc-e5f9-46e9-bfd1-8a38d38dc7a7" /> [STUDIO] -->
+		<set-payload value='#[["red","blue","red","green","blue"]]' doc:name='["red","blue","red","green","blue"]' doc:id="5c25c462-4cd8-4acf-9e90-164909a75ce8" />
+	</flow>
+</mule>
