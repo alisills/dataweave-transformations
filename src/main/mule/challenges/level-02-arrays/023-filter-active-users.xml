@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="023-filter-active-usersFlow" doc:id="1e417dde-ded5-4a29-8d02-35e51213e8ab" >
+		<http:listener doc:name="Listener" doc:id="2ead3d6e-43bd-4b33-8dbb-b198ee8a893f" config-ref="HTTP_Listener_config" path="filter-active-users" allowedMethods="GET"/>
+		<!-- [STUDIO:"Return only records where active = true."]<set-payload value="#[payload&#93;" doc:name="Return only records where active = true." doc:id="a92ce653-a9d2-416e-ac66-6d4002e8b510" /> [STUDIO] -->
+		<set-payload value='#[[{"id":1,"name":"Ali","active":true},{"id":2,"name":"Omar","active":false},{"id":3,"name":"Zara","active":true}]]' doc:name='[{"id":1,"name":"Ali","active":true},{"id":2,"name":"Omar","active":false},{"id":3,"name":"Zara","active":true}]' doc:id="192d4ecc-15c9-4587-87c0-bd05cb92eb2b" />
+		<ee:transform doc:name="payload filter ($.active == true)" doc:id="73347b12-63a8-400b-abfb-02b85e104c47" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter ($.active == true)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
