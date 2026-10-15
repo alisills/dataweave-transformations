@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="sort-by-ageFlow" doc:id="2bc4eeaf-d64d-4c97-b099-fa613edebcc3" >
 		<http:listener doc:name="Listener" doc:id="6283c0c1-6cd8-4359-a8d7-f2350b637e34" config-ref="HTTP_Listener_config" path="sort-by-age"/>
 		<!-- [STUDIO:"Sort customer objects youngest to oldest."]<set-payload value="#[payload&#93;" doc:name="Sort customer objects youngest to oldest." doc:id="5c1b5065-2652-413c-b397-106f3efc4c1a" /> [STUDIO] -->
 		<set-payload value='#[[{"id":"C1","name":"Ali","age":17,"email":"amina@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]]' doc:name='[{"id":"C1","name":"Ali","age":17,"email":"amina@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]' doc:id="13fb34ba-8f13-4256-800b-c817ffaf21d3" />
+		<ee:transform doc:name="payload&#10;    orderBy ((v) -&gt; v.age)" doc:id="ce158752-c3a5-4912-b1f1-ca08abea1b07" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+    orderBy ((v) -> v.age)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
