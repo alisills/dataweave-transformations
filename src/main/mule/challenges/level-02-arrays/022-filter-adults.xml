@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="022-filter-adultsFlow" doc:id="efcf74fc-28d5-43b8-b5d9-6944ebf015a1" >
+		<http:listener doc:name="Listener" doc:id="70ee3990-f283-4944-84ab-ec1d38627c08" config-ref="HTTP_Listener_config" path="filter-adults"/>
+		<!-- [STUDIO:"Return only records where age >= 18."]<set-payload value="#[payload&#93;" doc:name="Return only records where age &gt;= 18." doc:id="fcd16c39-96c2-4010-9c41-ac30a9689743" /> [STUDIO] -->
+		<set-payload value='#[[{"id":"C1","name":"Ali","age":17,"email":"ali@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]]' doc:name='[{"id":"C1","name":"Ali","age":17,"email":"ali@example.com"},{"id":"C2","name":"Omar","age":18,"email":"omar@example.com"},{"id":"C3","name":"Zara","age":35,"email":"zara@example.com"}]' doc:id="c84ae6b9-7c4f-40ac-8d68-0f8887add39c" />
+		<ee:transform doc:name="payload filter ($.age &gt;= 18)" doc:id="97b7a4c7-c325-4f1c-9a18-80b288172ff2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload filter ($.age >= 18)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
