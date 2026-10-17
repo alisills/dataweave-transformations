@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="032-default-phoneFlow" doc:id="eb379dfb-1f3c-48a2-9caa-1ac1dd04836f" >
+		<http:listener doc:name="Listener" doc:id="7da6a958-c2b1-4da6-866f-11841bd7e149" config-ref="HTTP_Listener_config" path="default-country" allowedMethods="GET"/>
+		<!-- [STUDIO:"If phone is null, output &quot;Not Provided&quot;."]<set-payload value="#[payload&#93;" doc:name='If phone is null, output "Not Provided".' doc:id="597b39e3-a5ae-4db6-89fe-ab593bf2a48d" /> [STUDIO] -->
+		<set-payload value='#[[{"phone":null},{"phone":"2025550101"},{}]]' doc:name='[{"phone":null},{"phone":"2025550101"},{}]' doc:id="18ba75dc-6f41-4782-ab11-d15d0eae1c8f" />
+	</flow>
+</mule>
