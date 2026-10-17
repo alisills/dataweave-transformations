@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="031-default-countryFlow" doc:id="b52d9b28-128a-4ead-a245-b35248f1308d" >
+		<http:listener doc:name="Listener" doc:id="24be9471-74df-4137-9d18-0ad7c349165f" config-ref="HTTP_Listener_config" allowedMethods="GET" path="default-country"/>
+		<!-- [STUDIO:"If country is absent, output country = USA."]<set-payload value="#[payload&#93;" doc:name="If country is absent, output country = USA." doc:id="b229bfa0-c0de-484e-9f46-a74139ed8781" /> [STUDIO] -->
+		<set-payload value='#[[{"name":"Ali"},{"name":"Omar","country":"CAN"}]]' doc:name='[{"name":"Ali"},{"name":"Omar","country":"CAN"}]' doc:id="22d1a698-2453-488b-b9e2-f7b9464e6096" />
+		<ee:transform doc:name='payload map (v, k) -&gt; {&#10;    "name": v.name,&#10;    "country": v.country  default "USA"&#10;}' doc:id="e7a72627-3d2b-4c4c-8f02-5d71881e2383" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v, k) -> {
+    "name": v.name,
+    "country": v.country  default "USA"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
