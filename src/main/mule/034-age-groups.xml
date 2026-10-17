@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="034-age-groupsFlow" doc:id="2e6a4c40-d679-4697-960c-4938839451ef" >
 		<http:listener doc:name="Listener" doc:id="1fa77e0c-3905-420b-ae1c-44e2d10fda4b" config-ref="HTTP_Listener_config" path="age-groups" allowedMethods="GET"/>
 		<!-- [STUDIO:"Map ages into CHILD, TEEN, ADULT, or SENIOR."]<set-payload value="#[payload&#93;" doc:name="Map ages into CHILD, TEEN, ADULT, or SENIOR." doc:id="4e3d89b2-d8bb-4ff9-8e42-1c486d8057c3" /> [STUDIO] -->
 		<set-payload value='#[[{"age":12},{"age":13},{"age":17},{"age":18},{"age":64},{"age":65}]]' doc:name='[{"age":12},{"age":13},{"age":17},{"age":18},{"age":64},{"age":65}]' doc:id="b0d9e863-ed6e-4ab1-a253-7c42341dabfd" />
+		<ee:transform doc:name='payload map (v, k) -&gt; {&#10;    "age": v.age,&#10;    "lifeStage": if (v.age &lt;= 12) "CHILD" else if (v.age &lt;=17) "TEEN"&#10;    else if (v.age &lt;=64) "ADULT" else "SENIOR"&#10;}' doc:id="b4537972-8425-400d-8b70-373e0688f9c6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v, k) -> {
+    "age": v.age,
+    "lifeStage": if (v.age <= 12) "CHILD" else if (v.age <=17) "TEEN"
+    else if (v.age <=64) "ADULT" else "SENIOR"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
