@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="033-pass-or-failFlow" doc:id="cece7661-c150-48b6-9c2a-eccad2c67dd5" >
 		<http:listener doc:name="Listener" doc:id="7f53da78-ee3b-4b86-98cc-5b5f340dab79" config-ref="HTTP_Listener_config" path="pass-or-fail"/>
 		<!-- [STUDIO:"Return PASS for score >= 70, otherwise FAIL."]<set-payload value="#[payload&#93;" doc:name="Return PASS for score &gt;= 70, otherwise FAIL." doc:id="c302a2cd-1a32-4603-a552-9c277200761a" /> [STUDIO] -->
 		<set-payload value='#[[{"score":69},{"score":70},{"score":95}]]' doc:name='[{"score":69},{"score":70},{"score":95}]' doc:id="afa8ef29-4c8e-4584-a9dd-7708541dd044" />
+		<ee:transform doc:name='payload map (v, k) -&gt; {&#10;    "score": v.score,&#10;    "Pass/Fail": if (v.score &gt;= 70) "Pass" else "Fail"&#10;}' doc:id="d6b5dbd2-3921-40fc-9c44-99f574128c9c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v, k) -> {
+    "score": v.score,
+    "Pass/Fail": if (v.score >= 70) "Pass" else "Fail"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
