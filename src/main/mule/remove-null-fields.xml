@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="remove-null-fieldsFlow" doc:id="cdc19547-1a0c-426e-b6fa-6e916eecfbf1" >
+		<http:listener doc:name="Listener" doc:id="2caedeee-5fc9-459a-a831-61c561e91f3a" config-ref="HTTP_Listener_config" allowedMethods="GET" path="remove-null-fields"/>
+		<!-- [STUDIO:"Omit null-valued fields from the output."]<set-payload value="#[payload&#93;" doc:name="Omit null-valued fields from the output." doc:id="b28b9f8b-8fb5-497e-a70b-8482f1c88135" /> [STUDIO] -->
+		<set-payload value="#[payload]" doc:name='{"id":"C1","name":"Ali","phone":null,"email":null,"active":true}' doc:id="6877fb6d-4cc6-4302-9c90-3c14867510d0" />
+	</flow>
+</mule>
