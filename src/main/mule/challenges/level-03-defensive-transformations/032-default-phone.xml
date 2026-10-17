@@ -6,10 +6,10 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="032-default-phoneFlow" doc:id="eb379dfb-1f3c-48a2-9caa-1ac1dd04836f" >
-		<http:listener doc:name="Listener" doc:id="7da6a958-c2b1-4da6-866f-11841bd7e149" config-ref="HTTP_Listener_config" path="default-country" allowedMethods="GET"/>
+		<http:listener doc:name="Listener" doc:id="7da6a958-c2b1-4da6-866f-11841bd7e149" config-ref="HTTP_Listener_config" path="default-phone" allowedMethods="GET"/>
 		<!-- [STUDIO:"If phone is null, output &quot;Not Provided&quot;."]<set-payload value="#[payload&#93;" doc:name='If phone is null, output "Not Provided".' doc:id="597b39e3-a5ae-4db6-89fe-ab593bf2a48d" /> [STUDIO] -->
 		<set-payload value='#[[{"phone":null},{"phone":"2025550101"},{}]]' doc:name='[{"phone":null},{"phone":"2025550101"},{}]' doc:id="18ba75dc-6f41-4782-ab11-d15d0eae1c8f" />
-		<ee:transform doc:name="Transform Message" doc:id="113bc83f-a280-41ab-bb4f-58e1e882bd7c" >
+		<ee:transform doc:name='payload map (v, k) -&gt; {&#10;    "phone": v.phone  default "Not Provided"&#10;}' doc:id="113bc83f-a280-41ab-bb4f-58e1e882bd7c" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
