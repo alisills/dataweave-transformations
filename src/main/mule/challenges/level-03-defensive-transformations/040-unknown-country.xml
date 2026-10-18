@@ -9,12 +9,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="Listener" doc:id="a2664009-51b9-4200-a2b1-62057a19e626" config-ref="HTTP_Listener_config" path="unknown-country"/>
 		<!-- [STUDIO:"Convert null, blank, or missing country to UNKNOWN."]<set-payload value="#[payload&#93;" doc:name="Convert null, blank, or missing country to UNKNOWN." doc:id="33375b4f-332f-4a85-9ae9-458658228b22" /> [STUDIO] -->
 		<set-payload value='#[[{"country":null},{"country":""},{"country":" "},{},{"country":"CAN"}]]' doc:name='[{"country":null},{"country":""},{"country":" "},{},{"country":"CAN"}]' doc:id="96d9d3c3-556b-4e36-9472-44848a8610fa" />
-		<ee:transform doc:name="Transform Message" doc:id="756d628c-aec6-4209-a55b-4ce5a594b119" >
+		<ee:transform doc:name='payload map (v) -&gt; {&#10;    country: if (isBlank(v.country)) "UNKNOWN" else v.country&#10;}' doc:id="756d628c-aec6-4209-a55b-4ce5a594b119" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
+payload map (v) -> {
+    country: if (isBlank(v.country)) "UNKNOWN" else v.country
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
