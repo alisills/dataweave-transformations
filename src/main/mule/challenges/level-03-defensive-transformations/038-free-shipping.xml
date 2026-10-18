@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="038-free-shippingFlow" doc:id="d33cd5c6-fffc-4d43-b9bc-7e917e794fd7" >
+		<http:listener doc:name="Listener" doc:id="cda0264e-73fd-4989-b8cc-3ce4a012288d" config-ref="HTTP_Listener_config" path="free-shipping"/>
+		<!-- [STUDIO:"Return true when order total >= 100."]<set-payload value="#[payload&#93;" doc:name="Return true when order total &gt;= 100." doc:id="725c230c-96c8-4ed7-9ec1-9c7193c5123e" /> [STUDIO] -->
+		<set-payload value='#[[{"total":99.99},{"total":100},{"total":150}]]' doc:name='[{"total":99.99},{"total":100},{"total":150}]' doc:id="6f1a072b-f64a-48eb-a722-8be2987ee80a" />
+		<ee:transform doc:name='payload map (v) -&gt; {&#10;    total: v.total,&#10;    "freeShipping": if(v.total &gt;= 100) "True" else "False"&#10;}' doc:id="4c49f5ff-5324-455b-9c94-e64e1c65eac9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v) -> {
+    total: v.total,
+    "freeShipping": if(v.total >= 100) "True" else "False"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
