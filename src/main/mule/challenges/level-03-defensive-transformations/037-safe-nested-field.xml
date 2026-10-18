@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="safe-nested-fieldFlow" doc:id="d326e507-4c6c-452f-8972-e7ac3a52e3bb" >
+		<http:listener doc:name="Listener" doc:id="7c6e241c-2898-4086-9705-8ad0be337b78" config-ref="HTTP_Listener_config" path="safe-nested-field" allowedMethods="GET"/>
+		<!-- [STUDIO:"Handle customer = null without failing when reading customer.name."]<set-payload value="#[payload&#93;" doc:name="Handle customer = null without failing when reading customer.name." doc:id="114c2ee8-ff54-4439-8029-511c67f73b6c" /> [STUDIO] -->
+		<set-payload value='#[[{"customer":null},{"customer":{"name":"Ali"}},{}]]' doc:name='[{"customer":null},{"customer":{"name":"Ali"}},{}]' doc:id="27840635-2ea6-4273-8697-c5797ac79cf2" />
+		<ee:transform doc:name='payload map (v) -&gt; &#10;    v.customer.name default "UNKNOWN"' doc:id="6d42ff4d-ae01-469c-b8a9-4f20afa7cda4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v) -> 
+    v.customer.name default "UNKNOWN"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

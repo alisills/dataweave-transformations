@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="036-check-emailFlow" doc:id="5746525b-ab10-4d7d-8b2d-524590e15df8" >
 		<http:listener doc:name="Listener" doc:id="56004ac8-1eb2-4ac8-af2b-c6ae3c307e70" config-ref="HTTP_Listener_config" allowedMethods="GET" path="check-email"/>
 		<!-- [STUDIO:"Return VALID only when email exists and is non-empty."]<set-payload value="#[payload&#93;" doc:name="Return VALID only when email exists and is non-empty." doc:id="d920c6c1-e6c5-421f-a795-71abc13fb18d" /> [STUDIO] -->
 		<set-payload value='#[[{"email":"ali@example.com"},{"email":""},{"email":null},{}]]' doc:name='[{"email":"ali@example.com"},{"email":""},{"email":null},{}]' doc:id="aa745d01-7384-4dfd-8081-c5e29d8e080f" />
+		<ee:transform doc:name='payload map (v) -&gt; {&#10;    email: v.email,&#10;    "input": if (isBlank(v.email)) "INVALID" else "VALID"&#10;}' doc:id="1f76eafa-6991-4863-a44d-e015f529a62c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v) -> {
+    email: v.email,
+    "input": if (isBlank(v.email)) "INVALID" else "VALID"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
