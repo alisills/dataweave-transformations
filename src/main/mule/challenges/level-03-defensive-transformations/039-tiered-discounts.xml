@@ -9,12 +9,24 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="Listener" doc:id="73ed595c-ce4e-4a01-bbbf-5302da204383" config-ref="HTTP_Listener_config" path="tiered-discounts"/>
 		<!-- [STUDIO:"Apply tiered discounts and return original total, discount, and final total."]<set-payload value="#[payload&#93;" doc:name="Apply tiered discounts and return original total, discount, and final total." doc:id="e5e19f0c-bd5f-49a3-a997-b0beb51522fc" /> [STUDIO] -->
 		<set-payload value='#[[{"total":99},{"total":100},{"total":499.99},{"total":500}]]' doc:name='[{"total":99},{"total":100},{"total":499.99},{"total":500}]' doc:id="57022f95-4f68-4a91-908d-0270f18a8509" />
-		<ee:transform doc:name="Transform Message" doc:id="fb12c377-9657-4e99-89fa-7bfb0fe5f119" >
+		<ee:transform doc:name='payload map (v) -&gt; do {&#10;    var discount = &#10;        if (v.total &gt;= 500) &#10;            v.total * 0.15&#10;        else if (v.total &gt;= 100) &#10;            v.total * 0.10 &#10;        else 0&#10;---&#10;    {&#10;        total: v.total,&#10;        discount: discount,&#10;        "finalTotal": v.total - discount&#10;    }&#10;}' doc:id="fb12c377-9657-4e99-89fa-7bfb0fe5f119" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
+payload map (v) -> do {
+    var discount = 
+        if (v.total >= 500) 
+            v.total * 0.15
+        else if (v.total >= 100) 
+            v.total * 0.10 
+        else 0
+---
+    {
+        total: v.total,
+        discount: discount,
+        "finalTotal": v.total - discount
+    }
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
