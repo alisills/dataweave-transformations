@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="039-tiered-discountsFlow" doc:id="28137df1-308a-44f9-806c-89d9e7080d84" >
+		<http:listener doc:name="Listener" doc:id="73ed595c-ce4e-4a01-bbbf-5302da204383" config-ref="HTTP_Listener_config" path="tiered-discounts"/>
+		<!-- [STUDIO:"Apply tiered discounts and return original total, discount, and final total."]<set-payload value="#[payload&#93;" doc:name="Apply tiered discounts and return original total, discount, and final total." doc:id="e5e19f0c-bd5f-49a3-a997-b0beb51522fc" /> [STUDIO] -->
+		<set-payload value='#[[{"total":99},{"total":100},{"total":499.99},{"total":500}]]' doc:name='[{"total":99},{"total":100},{"total":499.99},{"total":500}]' doc:id="57022f95-4f68-4a91-908d-0270f18a8509" />
+		<ee:transform doc:name="Transform Message" doc:id="fb12c377-9657-4e99-89fa-7bfb0fe5f119" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
