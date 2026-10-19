@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="042-account-statusFlow" doc:id="c95cf2b8-2112-420a-9bb3-205a74eb20f7" >
 		<http:listener doc:name="Listener" doc:id="88ec2a78-980c-4c1c-9a3e-064ca8d701bd" config-ref="HTTP_Listener_config" path="account-status"/>
 		<!-- [STUDIO:"Return GOOD only when active and balance >= 0; otherwise REVIEW."]<set-payload value="#[payload&#93;" doc:name="Return GOOD only when active and balance &gt;= 0; otherwise REVIEW." doc:id="8c125fd6-4565-432e-a3d9-20dd1dcc73b3" /> [STUDIO] -->
 		<set-payload value='#[[{"active":true,"balance":0},{"active":true,"balance":-1},{"active":false,"balance":50}]]' doc:name='[{"active":true,"balance":0},{"active":true,"balance":-1},{"active":false,"balance":50}]' doc:id="6eb31f9f-3f85-47cf-b9c8-d02d2530e9c1" />
+		<ee:transform doc:name='payload map (v) -&gt; {&#10;    active: v.active,&#10;    balance: v.balance,&#10;    "status": if(v.active and v.balance &gt;=0) "GOOD" else "REVIEW"&#10;}' doc:id="10f84234-9612-45ec-ae6b-f3d7ce159b4a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v) -> {
+    active: v.active,
+    balance: v.balance,
+    "status": if(v.active and v.balance >=0) "GOOD" else "REVIEW"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
