@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="045-validation-errorsFlow" doc:id="1c4a9457-d261-48c0-a8c0-ced4e6ae542c" >
 		<http:listener doc:name="Listener" doc:id="d43175df-0519-45cf-92d8-6301f95f78bf" config-ref="HTTP_Listener_config" path="validation-errors"/>
 		<!-- [STUDIO:"Return an array of applicable field-level validation messages."]<set-payload value="#[payload&#93;" doc:name="Return an array of applicable field-level validation messages." doc:id="19405f49-6192-4fd2-ba7b-19eeccfb07e7" /> [STUDIO] -->
 		<set-payload value='#[[{"name":"","email":"invalid-email","age":-1},{"name":"Amina","email":"amina@example.com","age":25}]]' doc:name='[{"name":"","email":"invalid-email","age":-1},{"name":"Amina","email":"amina@example.com","age":25}]' doc:id="67157d7e-624a-4660-99e5-271979ab0d84" />
+		<ee:transform doc:name='payload map (v) -&gt; {&#10;   name: if (!isEmpty(v.name)) v.name else "This is an invalid name",&#10;   email: if (!isEmpty(v.email)) v.email else "This is an invalid email",&#10;   age: if (v.age &gt;= 18) v.age else "This is an invalid age" &#10;}' doc:id="5b5efa8f-7419-4bbd-8e87-3e0b5ecb0724" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (v) -> {
+   name: if (!isEmpty(v.name)) v.name else "This is an invalid name",
+   email: if (!isEmpty(v.email)) v.email else "This is an invalid email",
+   age: if (v.age >= 18) v.age else "This is an invalid age" 
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
