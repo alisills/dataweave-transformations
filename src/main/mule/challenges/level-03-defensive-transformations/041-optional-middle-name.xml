@@ -9,12 +9,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="Listener" doc:id="c04e4b55-a208-4ca6-acbf-c32dba48941e" config-ref="HTTP_Listener_config" path="optional-middle-name"/>
 		<!-- [STUDIO:"Only output middle when it is present."]<set-payload value="#[payload&#93;" doc:name="Only output middle when it is present." doc:id="b368e360-abc3-4790-805b-40c6b16a700b" /> [STUDIO] -->
 		<set-payload value='#[[{"first":"Ali","middle":"Noor","last":"Khan"},{"first":"Omar","last":"Khan"},{"first":"Zara","middle":null,"last":"Ali"}]]' doc:name='[{"first":"Ali","middle":"Noor","last":"Khan"},{"first":"Omar","last":"Khan"},{"first":"Zara","middle":null,"last":"Ali"}]' doc:id="b699d1f6-4103-447e-9ba2-f1ffa8adf228" />
-		<ee:transform doc:name="Transform Message" doc:id="d9820dd4-5181-4dd2-a23f-17a87e1e1fad" >
+		<ee:transform doc:name="payload map (v) -&gt; {&#10;    first: v.first,&#10;    (middle: v.middle) if (!isEmpty(v.middle)),&#10;    last: v.last&#10;}" doc:id="d9820dd4-5181-4dd2-a23f-17a87e1e1fad" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-{
+payload map (v) -> {
+    first: v.first,
+    (middle: v.middle) if (!isEmpty(v.middle)),
+    last: v.last
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
