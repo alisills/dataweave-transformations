@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="044-normalize-booleansFlow" doc:id="46d679ab-ff19-44e2-a42d-b5a38dc8ea79" >
+		<http:listener doc:name="Listener" doc:id="abea9b08-5c6c-41a0-bc49-ebf7af740db1" config-ref="HTTP_Listener_config" path="normalize-booleans"/>
+		<!-- [STUDIO:"Normalize yes/YES/Y/true/1 to true and no/NO/N/false/0 to false."]<set-payload value="#[payload&#93;" doc:name="Normalize yes/YES/Y/true/1 to true and no/NO/N/false/0 to false." doc:id="f2b20202-2c1a-4345-89e7-005c885cb2f4" /> [STUDIO] -->
+		<set-payload value='#[["yes","YES","Y","true","1","no","NO","N","false","0"]]' doc:name='["yes","YES","Y","true","1","no","NO","N","false","0"]' doc:id="d4670ecc-d27b-46b9-8c70-76eba03101a3" />
+	</flow>
+</mule>
