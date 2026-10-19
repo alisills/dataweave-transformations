@@ -9,12 +9,16 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="Listener" doc:id="f4ff204b-56a5-425a-8f26-7c1ac5fb21fb" config-ref="HTTP_Listener_config" path="risky-transactions"/>
 		<!-- [STUDIO:"Flag when amount > 5000 OR transaction country differs from account country."]<set-payload value="#[payload&#93;" doc:name="Flag when amount &gt; 5000 OR transaction country differs from account country." doc:id="05de3b11-2e04-4d28-a062-9407c761c1a9" /> [STUDIO] -->
 		<set-payload value='#[[{"amount":5000,"transactionCountry":"USA","accountCountry":"USA"},{"amount":5001,"transactionCountry":"USA","accountCountry":"USA"},{"amount":10,"transactionCountry":"CAN","accountCountry":"USA"}]]' doc:name='[{"amount":5000,"transactionCountry":"USA","accountCountry":"USA"},{"amount":5001,"transactionCountry":"USA","accountCountry":"USA"},{"amount":10,"transactionCountry":"CAN","accountCountry":"USA"}]' doc:id="7c773b30-43de-496b-a9ed-a7d9e5ccd776" />
-		<ee:transform doc:name="Transform Message" doc:id="15f38c99-b374-42ab-a7a5-6ef762f442c9" >
+		<ee:transform doc:name='payload map (v) -&gt; {&#10;    amount: v.amount,&#10;    transactionCountry: v.transactionCountry,&#10;    accountCountry: v.accountCountry,&#10;    "flag": v.transactionCountry != "USA" or v.amount &gt; 5000&#10;}' doc:id="15f38c99-b374-42ab-a7a5-6ef762f442c9" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
+payload map (v) -> {
+    amount: v.amount,
+    transactionCountry: v.transactionCountry,
+    accountCountry: v.accountCountry,
+    "flag": v.transactionCountry != "USA" or v.amount > 5000
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
