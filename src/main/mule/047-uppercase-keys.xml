@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="047-uppercase-keysFlow" doc:id="2d30a578-737b-42cc-868e-625fcb60b224" >
+		<http:listener doc:name="Listener" doc:id="86a006ad-ccc4-4a9a-963c-fef07066a539" config-ref="HTTP_Listener_config" path="uppercase-keys"/>
+		<!-- [STUDIO:"Convert every object key to uppercase."]<set-payload value="#[payload&#93;" doc:name="Convert every object key to uppercase." doc:id="77772c60-907d-403f-991e-ecfab39cfb6c" /> [STUDIO] -->
+		<set-payload value='#[{"firstName":"Ali","lastName":"Khan","active":true}]' doc:name='{"firstName":"Ali","lastName":"Khan","active":true}' doc:id="26cdd3ee-8d35-4336-b243-8974426a5c3c" />
+	</flow>
+</mule>
