@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="050-extract-valuesFlow" doc:id="b7074ccc-e527-4784-8d42-778bdf367370" >
+		<http:listener doc:name="Listener" doc:id="4bd57bb7-8b25-4830-ae0a-80b6f75bfbaa" config-ref="HTTP_Listener_config" path="extract-values"/>
+		<!-- [STUDIO:"Return an array containing an object's values."]<set-payload value="#[payload&#93;" doc:name="Return an array containing an object's values." doc:id="ea0965d9-13ab-48dd-b535-e76ec6a5da00" /> [STUDIO] -->
+		<set-payload value='#[{"id":"C1","name":"Ali","active":true}]' doc:name='{"id":"C1","name":"Ali","active":true}' doc:id="7d45363b-cd94-47a2-8590-8939170464f6" />
+		<ee:transform doc:name="payload pluck (v, k) -&gt; &#10;	v" doc:id="1b323b86-216a-454e-bcd4-ee484c1cd1d7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload pluck (v, k) -> 
+	v]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
