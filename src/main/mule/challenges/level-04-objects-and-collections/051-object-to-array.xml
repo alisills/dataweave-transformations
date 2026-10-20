@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="051-object-to-arrayFlow" doc:id="5fbb5844-2499-4910-b2ee-8427e3c0efc7" >
+		<http:listener doc:name="Listener" doc:id="8cd073af-2641-460d-916d-87f0d04ad8ba" config-ref="HTTP_Listener_config" path="object-to-array"/>
+		<!-- [STUDIO:"Convert keyed amounts into [{code, amount}, ...]."]<set-payload value="#[payload&#93;" doc:name="Convert keyed amounts into [{code, amount}, ...&#93;." doc:id="e6f159a5-ff6a-435c-a110-7d793d9c90f3" /> [STUDIO] -->
+		<set-payload value='#[{"USD":100,"EUR":85,"GBP":73}]' doc:name='{"USD":100,"EUR":85,"GBP":73}' doc:id="dbddcc77-29d4-4550-8a21-f250aadc74a6" />
+		<ee:transform doc:name="payload pluck (v, k) -&gt; {&#10;    (k): v&#10;}" doc:id="a9026e09-dffe-4775-96ae-bf353147f2b4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload pluck (v, k) -> {
+    (k): v
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
