@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="052-array-to-objectFlow" doc:id="ba598824-45f7-492c-a850-6368745c2976" >
 		<http:listener doc:name="Listener" doc:id="5ba6c0fc-4890-4630-87e3-3d9d85a78fab" config-ref="HTTP_Listener_config" path="array-to-object"/>
 		<!-- [STUDIO:"Convert [{id,name}, ...] into an object keyed by id."]<set-payload value="#[payload&#93;" doc:name="Convert [{id,name}, ...&#93; into an object keyed by id." doc:id="377d617b-86c3-44a9-856e-2e4587ac62bb" /> [STUDIO] -->
 		<set-payload value='#[[{"id":"C1","name":"Amina"},{"id":"C2","name":"Omar"}]]' doc:name='[{"id":"C1","name":"Amina"},{"id":"C2","name":"Omar"}]' doc:id="169d6581-7618-440d-bc81-855986658ff4" />
+		<ee:transform doc:name="{(&#10;    payload map (v, k) -&gt; &#10;        (v.id): v&#10;)}" doc:id="ef477aa6-430e-449a-a78a-e060ea244da1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{(
+    payload map (v, k) -> 
+        (v.id): v
+)}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
