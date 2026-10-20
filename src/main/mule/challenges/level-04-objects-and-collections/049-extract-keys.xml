@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="049-extract-keysFlow" doc:id="9327dce4-e383-4fe7-9340-b6b58ec788ac" >
+		<http:listener doc:name="Listener" doc:id="d7c87514-6ea4-484b-aee2-0e32b9999587" config-ref="HTTP_Listener_config" path="extract-keys"/>
+		<!-- [STUDIO:"Return an array containing an object's keys."]<set-payload value="#[payload&#93;" doc:name="Return an array containing an object's keys." doc:id="2959a323-98c1-426c-b67f-e32f64de50d1" /> [STUDIO] -->
+		<set-payload value='#[{"id":"C1","name":"Ali","active":true}]' doc:name='{"id":"C1","name":"Ali","active":true}' doc:id="c749d369-6391-40b6-9f25-a23e248bae8d" />
+	</flow>
+</mule>
