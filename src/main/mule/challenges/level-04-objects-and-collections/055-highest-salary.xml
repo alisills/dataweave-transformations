@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="055-highest-salaryFlow" doc:id="a7007a6a-bc6d-4942-8f82-b976bb9fa85a" >
+		<http:listener doc:name="GET /highest-salary" doc:id="c04fbace-0ffb-49e2-bd1a-aa93b9173d58" config-ref="HTTP_Listener_config" path="/highest-salary" allowedMethods="GET"/>
+		<!-- [STUDIO:"Return the employee with the maximum salary."]<set-payload value="#[payload&#93;" doc:name="Return the employee with the maximum salary." doc:id="8b8fe82d-3d5d-4958-a9ba-cd590312bb5e" /> [STUDIO] -->
+		<set-payload value='#[[{"id":"E1","name":"Amina","dept":"IT","salary":72000},{"id":"E2","name":"Omar","dept":"Sales","salary":64000},{"id":"E3","name":"Zara","dept":"IT","salary":85000},{"id":"E4","name":"Idris","dept":"HR","salary":61000}]]' doc:name='[{"id":"E1","name":"Amina","dept":"IT","salary":72000},{"id":"E2","name":"Omar","dept":"Sales","salary":64000},{"id":"E3","name":"Zara","dept":"IT","salary":85000},{"id":"E4","name":"Idris","dept":"HR","salary":61000}]' doc:id="f375d607-2d65-4b05-90f2-00dfff8f063c" />
+	</flow>
+</mule>
