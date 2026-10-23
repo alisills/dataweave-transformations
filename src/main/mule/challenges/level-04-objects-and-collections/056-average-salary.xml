@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="056-average-salaryFlow" doc:id="e2aa2cda-ec48-4fe7-a7b4-9ea05bc31795" >
+		<http:listener doc:name="GET /average-salary" doc:id="36bb4410-74f6-4add-bb47-1e4bda724688" config-ref="HTTP_Listener_config" path="/average-salary" allowedMethods="GET"/>
+		<!-- [STUDIO:"Calculate average salary from an employee array."]<set-payload value="#[payload&#93;" doc:name="Calculate average salary from an employee array." doc:id="744d4630-867d-4eee-9b47-8bec906ae4b5" /> [STUDIO] -->
+		<set-payload value='#[[{"id":"E1","name":"Amina","dept":"IT","salary":72000},{"id":"E2","name":"Omar","dept":"Sales","salary":64000},{"id":"E3","name":"Zara","dept":"IT","salary":85000},{"id":"E4","name":"Idris","dept":"HR","salary":61000}]]' doc:name='[{"id":"E1","name":"Amina","dept":"IT","salary":72000},{"id":"E2","name":"Omar","dept":"Sales","salary":64000},{"id":"E3","name":"Zara","dept":"IT","salary":85000},{"id":"E4","name":"Idris","dept":"HR","salary":61000}]' doc:id="bbd79a3c-af69-4352-b78e-bb88b07d69a0" />
+	</flow>
+</mule>
