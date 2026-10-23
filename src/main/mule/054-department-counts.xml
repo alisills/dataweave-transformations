@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="054-department-countsFlow" doc:id="ff6f2a0c-3f3c-48ba-adb5-a643835cfe71" >
+		<http:listener doc:name="GET /department-counts" doc:id="ed970bd5-e3da-40c9-ac34-2f424a0c2fbc" config-ref="HTTP_Listener_config" path="/department-counts" allowedMethods="GET"/>
+		<!-- [STUDIO:"Return department => employee count."]<set-payload value="#[payload&#93;" doc:name="Return department =&gt; employee count." doc:id="f79de4df-0c48-459e-8239-249706598af4" /> [STUDIO] -->
+		<set-payload value='#[[{"id":"E1","name":"Amina","dept":"IT","salary":72000},{"id":"E2","name":"Omar","dept":"Sales","salary":64000},{"id":"E3","name":"Zara","dept":"IT","salary":85000},{"id":"E4","name":"Idris","dept":"HR","salary":61000}]]' doc:name='[{"id":"E1","name":"Amina","dept":"IT","salary":72000},{"id":"E2","name":"Omar","dept":"Sales","salary":64000},{"id":"E3","name":"Zara","dept":"IT","salary":85000},{"id":"E4","name":"Idris","dept":"HR","salary":61000}]' doc:id="6fadc0f1-3657-49f3-829c-ea31ae3f6a86" />
+	</flow>
+</mule>
