@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="059-customer-order-totalsFlow" doc:id="8d4dbc42-f38b-4387-ba9a-8e0c6a34ce61" >
 		<http:listener doc:name="GET /customer-order-totals" doc:id="6c265ee6-d4db-49bd-8a69-3b288a67587c" config-ref="HTTP_Listener_config" allowedMethods="GET" path="/customer-order-totals"/>
 		<!-- [STUDIO:"For each customer, calculate orderCount and totalSpent."]<set-payload value="#[payload&#93;" doc:name="For each customer, calculate orderCount and totalSpent." doc:id="c0f6dfb5-f9d9-4da7-9a16-44e82a1f0703" /> [STUDIO] -->
 		<set-payload value='#[[{"id":"O1","customerId":"C1","total":50},{"id":"O2","customerId":"C2","total":120},{"id":"O3","customerId":"C1","total":75},{"id":"O4","customerId":"C9","total":20}]]' doc:name='[{"id":"O1","customerId":"C1","total":50},{"id":"O2","customerId":"C2","total":120},{"id":"O3","customerId":"C1","total":75},{"id":"O4","customerId":"C9","total":20}]' doc:id="a2ed02db-37ed-47f1-89af-64c81cd66279" />
+		<ee:transform doc:name="(payload groupBy (v) -&gt; v.customerId) &#10;    mapObject (v, k) -&gt; {&#10;        orderCount: sizeOf(v),&#10;        totalSpent: sum(v.total)&#10;    }" doc:id="b64707f8-4193-4314-9e10-e4931222802e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+(payload groupBy (v) -> v.customerId) 
+    mapObject (v, k) -> {
+        orderCount: sizeOf(v),
+        totalSpent: sum(v.total)
+    }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
