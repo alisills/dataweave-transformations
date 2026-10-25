@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="058-group-ordersFlow" doc:id="e27b8eea-aa93-47cc-b014-569c6157b572" >
+		<http:listener doc:name="GET /group-orders" doc:id="659f9a34-243e-48f3-9aab-b641569899bc" config-ref="HTTP_Listener_config" path="/group-orders" allowedMethods="GET"/>
+		<!-- [STUDIO:"Return customerId => orders."]<set-payload value="#[payload&#93;" doc:name="Return customerId =&gt; orders." doc:id="140bc320-6623-4d4e-a733-4e79d3eb1a11" /> [STUDIO] -->
+		<set-payload value='#[[{"id":"O1","customerId":"C1","total":50},{"id":"O2","customerId":"C2","total":120},{"id":"O3","customerId":"C1","total":75},{"id":"O4","customerId":"C9","total":20}]]' doc:name='[{"id":"O1","customerId":"C1","total":50},{"id":"O2","customerId":"C2","total":120},{"id":"O3","customerId":"C1","total":75},{"id":"O4","customerId":"C9","total":20}]' doc:id="4018be41-2e9f-4c5f-88a2-e4499b431fc3" />
+	</flow>
+</mule>
