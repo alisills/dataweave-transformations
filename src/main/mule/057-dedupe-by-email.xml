@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="057-dedupe-by-emailFlow" doc:id="8e85dbe4-f0db-49ba-834b-28f7b11ab8c3" >
 		<http:listener doc:name="Listener" doc:id="6bac3d71-5349-4c50-a1cd-c60a549bb165" config-ref="HTTP_Listener_config" path="/dedupe-by-email" allowedMethods="GET"/>
 		<!-- [STUDIO:"Deduplicate customer records using email as the business key."]<set-payload value="#[payload&#93;" doc:name="Deduplicate customer records using email as the business key." doc:id="7c6478e9-6b8f-4e70-b1b0-9744d9085af0" /> [STUDIO] -->
 		<set-payload value='#[[{"id":"C1","email":"amina@example.com","name":"Amina"},{"id":"C2","email":"omar@example.com","name":"Omar"},{"id":"C3","email":"amina@example.com","name":"Amina copy"}]]' doc:name='[{"id":"C1","email":"amina@example.com","name":"Amina"},{"id":"C2","email":"omar@example.com","name":"Omar"},{"id":"C3","email":"amina@example.com","name":"Amina copy"}]' doc:id="b195b791-7fde-4972-a576-ccb98a89a3cd" />
+		<ee:transform doc:name="payload distinctBy (v) -&gt; v.email" doc:id="ee95483b-16a2-4add-8c69-f5b30b27bf2a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload distinctBy (v) -> v.email]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
