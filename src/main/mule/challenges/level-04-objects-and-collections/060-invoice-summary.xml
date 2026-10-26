@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="060-invoice-summaryFlow" doc:id="43c624a3-09bd-4bc8-923c-f31b76424700" >
 		<http:listener doc:name="GET /invoice-summary" doc:id="d06d15e3-9a25-4e43-a85c-b66ba0b78ced" config-ref="HTTP_Listener_config" path="/invoice-summary" allowedMethods="GET"/>
 		<!-- [STUDIO:"From line items, return subtotal, tax, total, and lineCount."]<set-payload value="#[payload&#93;" doc:name="From line items, return subtotal, tax, total, and lineCount." doc:id="6228934e-3bda-48b3-b891-018b4d74409f" /> [STUDIO] -->
 		<set-payload value='#[{"items":[{"sku":"P1","price":25,"qty":2},{"sku":"P2","price":12.5,"qty":4},{"sku":"P3","price":10,"qty":0}],"taxRate":0.06}]' doc:name='{"items":[{"sku":"P1","price":25,"qty":2},{"sku":"P2","price":12.5,"qty":4},{"sku":"P3","price":10,"qty":0}],"taxRate":0.06}' doc:id="760cbe16-c3e8-47e3-8e5a-d93edbe5e7f3" />
+		<ee:transform doc:name="Transform Message" doc:id="4b52dba6-0c54-4093-8d36-23e2b11c0f5e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
