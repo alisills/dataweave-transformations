@@ -9,12 +9,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="GET /invoice-summary" doc:id="d06d15e3-9a25-4e43-a85c-b66ba0b78ced" config-ref="HTTP_Listener_config" path="/invoice-summary" allowedMethods="GET"/>
 		<!-- [STUDIO:"From line items, return subtotal, tax, total, and lineCount."]<set-payload value="#[payload&#93;" doc:name="From line items, return subtotal, tax, total, and lineCount." doc:id="6228934e-3bda-48b3-b891-018b4d74409f" /> [STUDIO] -->
 		<set-payload value='#[{"items":[{"sku":"P1","price":25,"qty":2},{"sku":"P2","price":12.5,"qty":4},{"sku":"P3","price":10,"qty":0}],"taxRate":0.06}]' doc:name='{"items":[{"sku":"P1","price":25,"qty":2},{"sku":"P2","price":12.5,"qty":4},{"sku":"P3","price":10,"qty":0}],"taxRate":0.06}' doc:id="760cbe16-c3e8-47e3-8e5a-d93edbe5e7f3" />
-		<ee:transform doc:name="Transform Message" doc:id="4b52dba6-0c54-4093-8d36-23e2b11c0f5e" >
+		<ee:transform doc:name="flatten(payload.items) map (v, k) -&gt; do {&#10;    var currentSubtotal = v.price * v.qty&#10;    var taxed = currentSubtotal * payload.taxRate&#10;---&#10;    {    &#10;        subtotal: currentSubtotal,&#10;        tax: v.price * payload.taxRate,&#10;        total: taxed,&#10;        lineCount: sizeOf(v)&#10;    }&#10;}" doc:id="4b52dba6-0c54-4093-8d36-23e2b11c0f5e" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
+flatten(payload.items) map (v, k) -> do {
+    var currentSubtotal = v.price * v.qty
+    var taxed = currentSubtotal * payload.taxRate
+---
+    {    
+        subtotal: currentSubtotal,
+        tax: v.price * payload.taxRate,
+        total: taxed,
+        lineCount: sizeOf(v)
+    }
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
