@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="063-calculate-ageFlow" doc:id="2aeff778-49b6-404b-a1f7-bf81d3743e76" >
 		<http:listener doc:name="Listener" doc:id="fc0a62d2-48b3-40c3-a7d8-c62cd5e05d04" config-ref="HTTP_Listener_config" path="calculate-age"/>
 		<!-- [STUDIO:"Calculate age using DOB and a supplied reference date."]<set-payload value="#[payload&#93;" doc:name="Calculate age using DOB and a supplied reference date." doc:id="f112f0fb-54e2-471e-8dfe-c009786c3ca1" /> [STUDIO] -->
 		<set-payload value='#[[{"dob":"1994-10-13","referenceDate":"2026-10-12"},{"dob":"1994-10-12","referenceDate":"2026-10-12"}]]' doc:name='[{"dob":"1994-10-13","referenceDate":"2026-10-12"},{"dob":"1994-10-12","referenceDate":"2026-10-12"}]' doc:id="d5c7e2d1-3e72-4b2e-90f9-4711e2fab5be" />
+		<ee:transform doc:name="Transform Message" doc:id="49b9d5ad-6c37-49c1-8c6a-1934816c95dc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+import * from dw::core::Periods
+
+---
+
+payload map (v) -> {
+    dob: v.dob,
+    referenceDate: v.referenceDate,
+    age: between(v.referenceDate, v.dob).years
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
