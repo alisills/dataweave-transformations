@@ -9,13 +9,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<http:listener doc:name="Listener" doc:id="bc3930e6-678c-420b-aa67-53d911ea094e" config-ref="HTTP_Listener_config" path="format-timestamp"/>
 		<!-- [STUDIO:"Convert ISO datetime into a 12-hour display timestamp."]<set-payload value="#[payload&#93;" doc:name="Convert ISO datetime into a 12-hour display timestamp." doc:id="eb45449d-b393-48b7-bf2f-8401a5cba7fd" /> [STUDIO] -->
 		<set-payload value='#[{"timestamp":"2026-10-12T13:05:09Z"}]' doc:name='{"timestamp":"2026-10-12T13:05:09Z"}' doc:id="9b7ddedf-b602-4b71-84c5-41f7f58ba8df" />
-		<ee:transform doc:name="Transform Message" doc:id="3fefdb15-1504-43cd-a531-94316cf89874" >
+		<ee:transform doc:name='payload.timestamp as DateTime { } as String {format: "KK:mm:ss a"}' doc:id="3fefdb15-1504-43cd-a531-94316cf89874" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+output application/json
 ---
-{
-}]]></ee:set-payload>
+payload.timestamp as DateTime { } as String {format: "KK:mm:ss a"}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
