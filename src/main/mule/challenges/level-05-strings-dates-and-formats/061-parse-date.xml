@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="061-parse-dateFlow" doc:id="4a435964-6a37-45ad-83da-51ca2b7d560a" >
+		<http:listener doc:name="Listener" doc:id="377ed7ae-021a-4d47-9045-5c21f3d23222" config-ref="HTTP_Listener_config" path="parse-date"/>
+		<!-- [STUDIO:"Convert MM/dd/yyyy to yyyy-MM-dd."]<set-payload value="#[payload&#93;" doc:name="Convert MM/dd/yyyy to yyyy-MM-dd." doc:id="929fe9d8-505f-4544-94c4-b38284d98e34" /> [STUDIO] -->
+		<set-payload value='#[{"date":"10/12/2026"}]' doc:name='{"date":"10/12/2026"}' doc:id="860f1d07-1e7c-4b96-bdb7-b1b93fca0569" />
+		<ee:transform doc:name='{&#10;    date: payload.date as Date {format: "dd/MM/yyyy"} as String {format: "yyyy-MM-dd"}&#10;}' doc:id="587ae10e-74ab-48c3-9d45-c4e9b83505f7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    date: payload.date as Date {format: "dd/MM/yyyy"} as String {format: "yyyy-MM-dd"}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
