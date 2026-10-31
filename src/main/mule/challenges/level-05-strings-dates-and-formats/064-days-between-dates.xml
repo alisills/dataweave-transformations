@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="064-days-between-datesFlow" doc:id="3e749f29-9866-4da7-980d-cbe3a7922260" >
+		<http:listener doc:name="Listener" doc:id="3bd437b0-26a0-44a2-999c-77fe569257b7" config-ref="HTTP_Listener_config" path="days-between-dates"/>
+		<!-- [STUDIO:"Calculate age using DOB and a supplied reference date."]<set-payload value="#[payload&#93;" doc:name="Calculate age using DOB and a supplied reference date." doc:id="35fbab1a-e8eb-4f39-a962-a0a454f2a3b1" /> [STUDIO] -->
+		<set-payload value='#[[{"dob":"1994-10-13","referenceDate":"2026-10-12"},{"dob":"1994-10-12","referenceDate":"2026-10-12"}]]' doc:name='[{"dob":"1994-10-13","referenceDate":"2026-10-12"},{"dob":"1994-10-12","referenceDate":"2026-10-12"}]' doc:id="89eed0f5-892c-4966-89e1-c0faa86e733b" />
+	</flow>
+</mule>
