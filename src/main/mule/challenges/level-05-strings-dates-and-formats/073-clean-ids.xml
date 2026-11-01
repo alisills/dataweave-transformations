@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="073-clean-idsFlow" doc:id="b7360fbc-e085-408d-889e-be6109fe2ce7" >
+		<http:listener doc:name="Listener" doc:id="e3b615e7-0c05-4c01-8387-53a10f6573ba" config-ref="HTTP_Listener_config" path="clean-ids"/>
+		<!-- [STUDIO:"Replace spaces, /, and # in IDs with underscores."]<set-payload value="#[payload&#93;" doc:name="Replace spaces, /, and # in IDs with underscores." doc:id="f6f9f633-d436-4a14-87ca-55d90e63b7bf" /> [STUDIO] -->
+		<set-payload value='#[{"id":"ORDER / 42#A"}]' doc:name='{"id":"ORDER / 42#A"}' doc:id="b137b2e0-2f39-41e5-88cc-a736c9021e75" />
+	</flow>
+</mule>
