@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="077-reduce-maxFlow" doc:id="9463aab2-4d31-4858-9b3f-a823185502c8" >
 		<http:listener doc:name="Listener" doc:id="7a37df9e-03aa-4393-a0a8-f24b00e8b29f" config-ref="HTTP_Listener_config" path="reduce-max"/>
 		<!-- [STUDIO:"Find max without using max."]<set-payload value="#[payload&#93;" doc:name="Find max without using max." doc:id="3ef03297-39d0-4ab6-a7fc-811f3c02a64c" /> [STUDIO] -->
 		<set-payload value="#[[-8,-2,-15,0,-3]]" doc:name="[-8,-2,-15,0,-3]" doc:id="b3d36d1d-aaf4-485f-a593-be3e026ba9b3" />
+		<ee:transform doc:name="payload reduce ((v, k) -&gt; if (v &gt; k) v else k)" doc:id="dee261a6-4773-46e0-b1f6-41d87ad087e1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload reduce ((v, k) -> if (v > k) v else k)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
