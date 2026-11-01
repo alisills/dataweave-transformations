@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="075-json-to-csvFlow" doc:id="ab99d978-6887-4590-bc3e-3982ce17d398" >
 		<http:listener doc:name="Listener" doc:id="e462117d-51e3-404f-9256-adbc93af34b3" config-ref="HTTP_Listener_config" path="json-to-csv"/>
 		<!-- [STUDIO:"Convert JSON records into CSV."]<set-payload value="#[payload&#93;" doc:name="Convert JSON records into CSV." doc:id="13e25853-ae1f-423b-9809-b7caf817d49a" /> [STUDIO] -->
 		<set-payload value='#[[{"id":"C1","firstName":"Amina","email":"amina@example.com"},{"id":"C2","firstName":"Omar","email":"omar@example.com"}]]' doc:name='[{"id":"C1","firstName":"Amina","email":"amina@example.com"},{"id":"C2","firstName":"Omar","email":"omar@example.com"}]' doc:id="ee157d11-be17-4847-a004-930067ac3c25" />
+		<ee:transform doc:name="payload" doc:id="1923c989-6a21-4723-a8cc-849332680913" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
