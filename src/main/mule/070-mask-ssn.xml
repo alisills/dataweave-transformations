@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="070-mask-ssnFlow" doc:id="f047117e-a764-41b5-9394-7cb168921222" >
+		<http:listener doc:name="Listener" doc:id="6bde4d39-2d45-4f9b-b0e2-db68d03d3ca9" config-ref="HTTP_Listener_config" path="mask-ssn"/>
+		<!-- [STUDIO:"Expose only the final four digits of an SSN."]<set-payload value="#[payload&#93;" doc:name="Expose only the final four digits of an SSN." doc:id="71de46da-3585-499a-be78-34eb98b0f827" /> [STUDIO] -->
+		<set-payload value='#[{"ssn":"000-00-1234"}]' doc:name='{"ssn":"000-00-1234"}' doc:id="ff8d2fd0-cbeb-4710-9db0-f351c252caba" />
+		<ee:transform doc:name='{&#10;    ssn: payload.ssn,&#10;    lastFour: (payload.ssn[-4 to -1] ++ " "),&#10;    noZeros: payload.ssn replace  /0/ with("*")&#10;}' doc:id="4094b253-41c8-4c20-8b4d-ad76d27feb32" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    ssn: payload.ssn,
+    lastFour: (payload.ssn[-4 to -1] ++ " "),
+    noZeros: payload.ssn replace  /0/ with("*")
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
