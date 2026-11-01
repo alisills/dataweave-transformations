@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="076-reduce-sumFlow" doc:id="b8de4935-6212-4c74-9d9d-04d8e9fab1e3" >
+		<http:listener doc:name="Listener" doc:id="e60cd5e3-5de6-4e83-b7b9-3a554cf31c8e" config-ref="HTTP_Listener_config" path="reduce-sum"/>
+		<!-- [STUDIO:"Repeat the summation problem using reduce instead of sum."]<set-payload value="#[payload&#93;" doc:name="Repeat the summation problem using reduce instead of sum." doc:id="c89e8b88-48d4-4ddd-a9c6-dc210f6394d4" /> [STUDIO] -->
+		<set-payload value="#[[10,20.5,-5,0,4.5]]" doc:name="[10,20.5,-5,0,4.5]" doc:id="9eb873d2-9530-416c-bdf1-b508bfa6dcd0" />
+	</flow>
+</mule>
