@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="067-split-nameFlow" doc:id="526fe00e-3882-4839-beb9-b028c3f72440" >
 		<http:listener doc:name="Listener" doc:id="db4628f4-97db-48ea-bc88-52c7c7b3ed55" config-ref="HTTP_Listener_config" path="split-name"/>
 		<!-- [STUDIO:"Split &quot;Ali Sills&quot; into first and last."]<set-payload value="#[payload&#93;" doc:name='Split "Ali Sills" into first and last.' doc:id="c5673faf-5823-474d-ab5a-061152d5c6bb" /> [STUDIO] -->
 		<set-payload value='#[{"fullName":"Ali Sills"}]' doc:name='{"fullName":"Ali Sills"}' doc:id="02fd080f-3684-4f30-a0fc-78fd60eb63e5" />
+		<ee:transform doc:name='{&#10;    fullName: payload.fullName,&#10;    firstName: (payload.fullName splitBy " ")[0],&#10;    lastName: (payload.fullName splitBy " ")[1]&#10;}' doc:id="e4900aca-5e08-4cc2-8845-af076528e2f1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    fullName: payload.fullName,
+    firstName: (payload.fullName splitBy " ")[0],
+    lastName: (payload.fullName splitBy " ")[1]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
