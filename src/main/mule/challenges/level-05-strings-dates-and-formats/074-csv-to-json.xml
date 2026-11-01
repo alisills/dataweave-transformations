@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="074-csv-to-jsonFlow" doc:id="450550be-0d87-46ed-bc2b-ad4b57612dcd" >
+		<http:listener doc:name="Listener" doc:id="69e044df-e706-4012-938a-726e30e9fd4d" config-ref="HTTP_Listener_config" path="csv-to-json"/>
+		<!-- [STUDIO:"Convert CSV customer rows into JSON records."]<set-payload value="#[payload&#93;" doc:name="Convert CSV customer rows into JSON records." doc:id="ddd45b4c-0627-4167-be66-5fdcf6b40f01" /> [STUDIO] -->
+		<set-payload value='#["id,firstName,email&#10; C1,Amina,amina@example.com&#10; C2,Omar,omar@example.com"]' doc:name='"id,firstName,email&#10; C1,Amina,amina@example.com&#10; C2,Omar,omar@example.com"' doc:id="d34d6dfe-4efe-4fc3-8df2-4febc026d5d8" />
+	</flow>
+</mule>
