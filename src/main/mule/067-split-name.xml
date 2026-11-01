@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="067-split-nameFlow" doc:id="526fe00e-3882-4839-beb9-b028c3f72440" >
+		<http:listener doc:name="Listener" doc:id="db4628f4-97db-48ea-bc88-52c7c7b3ed55" config-ref="HTTP_Listener_config" path="split-name"/>
+		<!-- [STUDIO:"Split &quot;Ali Sills&quot; into first and last."]<set-payload value="#[payload&#93;" doc:name='Split "Ali Sills" into first and last.' doc:id="c5673faf-5823-474d-ab5a-061152d5c6bb" /> [STUDIO] -->
+		<set-payload value='#[{"fullName":"Ali Sills"}]' doc:name='{"fullName":"Ali Sills"}' doc:id="02fd080f-3684-4f30-a0fc-78fd60eb63e5" />
+	</flow>
+</mule>
