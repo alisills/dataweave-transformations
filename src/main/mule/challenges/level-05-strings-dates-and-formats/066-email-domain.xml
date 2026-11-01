@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="066-email-domainFlow" doc:id="391c40e3-84fe-4e54-a423-0e7f99dea6f3" >
+		<http:listener doc:name="Listener" doc:id="400a817e-106d-468f-8ed4-a4d02668e1fc" config-ref="HTTP_Listener_config" path="email-domain"/>
+		<!-- [STUDIO:"Convert ali@example.com to example.com."]<set-payload value="#[payload&#93;" doc:name="Convert ali@example.com to example.com." doc:id="44edc64d-22db-4f73-8c68-d9daa3f2cbfd" /> [STUDIO] -->
+		<set-payload value='#[{"email":"ali@example.com"}]' doc:name='{"email":"ali@example.com"}' doc:id="6983155a-dd6b-441c-9591-f7a2a675a741" />
+	</flow>
+</mule>
