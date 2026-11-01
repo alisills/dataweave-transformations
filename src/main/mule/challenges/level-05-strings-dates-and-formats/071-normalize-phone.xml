@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="071-normalize-phoneFlow" doc:id="b2ddb835-6807-4a40-b725-25d56ccf5d5b" >
 		<http:listener doc:name="Listener" doc:id="4bcaa1d5-b575-494e-974c-9e3a6fd32b01" config-ref="HTTP_Listener_config" path="normalize-phone"/>
 		<!-- [STUDIO:"Normalize multiple phone formats to digits only."]<set-payload value="#[payload&#93;" doc:name="Normalize multiple phone formats to digits only." doc:id="59ec071d-8e39-4b74-b443-977577128737" /> [STUDIO] -->
 		<set-payload value='#[["(202) 555-0101","202-555-0102","+1 202.555.0103"]]' doc:name='["(202) 555-0101","202-555-0102","+1 202.555.0103"]' doc:id="36b65598-2ebf-4627-a891-1310c3843e5e" />
+		<ee:transform doc:name='payload map ((v) -&gt; &#10;    (v replace /[^\d]/ with "") as Number&#10;)' doc:id="e6f43925-6a8a-417d-b2a9-edfce10e7917" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ((v) -> 
+    (v replace /[^\d]/ with "") as Number
+)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
