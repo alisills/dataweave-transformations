@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="065-format-currencyFlow" doc:id="ec72fdcb-add9-4a55-bcb4-dda584e245a4" >
 		<http:listener doc:name="Listener" doc:id="59c31ea5-8fcd-4e59-ae7a-08366bd1181a" config-ref="HTTP_Listener_config" path="format-currency"/>
 		<!-- [STUDIO:"Format 1234.5 as $1,234.50."]<set-payload value="#[payload&#93;" doc:name="Format 1234.5 as $1,234.50." doc:id="0a7538fb-609e-4c89-aa2e-e270aa10dca7" /> [STUDIO] -->
 		<set-payload value='#[{"amount":1234.5}]' doc:name='{"amount":1234.5}' doc:id="9bb1822f-01e1-414b-83a4-d8fd9200aa2a" />
+		<ee:transform doc:name='{&#10;    amount: payload.amount as String {format: "#,##0.00"}&#10;}' doc:id="ac1d7a62-f8f9-4cfe-9693-7d231c6d2cf0" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    amount: payload.amount as String {format: "#,##0.00"}
+} ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 </mule>
