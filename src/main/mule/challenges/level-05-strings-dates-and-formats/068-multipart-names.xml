@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="068-multipart-namesFlow" doc:id="6f134f85-3796-4cfe-95dd-518e75b51f8b" >
+		<http:listener doc:name="Listener" doc:id="a87e860e-47c0-4707-b0be-72997c27a42a" config-ref="HTTP_Listener_config" path="multipart-names"/>
+		<!-- [STUDIO:"Correctly extract first and last from a multi-token name."]<set-payload value="#[payload&#93;" doc:name="Correctly extract first and last from a multi-token name." doc:id="e5f364ca-11ad-41b8-b0fc-85d6bfcf3724" /> [STUDIO] -->
+		<set-payload value='#[[{"fullName":"Amina Noor Khan"},{"fullName":"Omar ibn Yusuf Ali"},{"fullName":"Zara"}]]' doc:name='[{"fullName":"Amina Noor Khan"},{"fullName":"Omar ibn Yusuf Ali"},{"fullName":"Zara"}]' doc:id="b28ca885-c6b8-46d0-a3ed-0cd984f9fb5a" />
+	</flow>
+</mule>
