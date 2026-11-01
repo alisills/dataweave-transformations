@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="mask-cardFlow" doc:id="e604ec02-d7aa-4262-b7d1-6ed809f46a7d" >
+		<http:listener doc:name="Listener" doc:id="9ade161d-53b5-4c1b-a7ec-145d5830b8a4" config-ref="HTTP_Listener_config" path="mask-card"/>
+		<!-- [STUDIO:"Expose only the last four digits of a card number."]<set-payload value="#[payload&#93;" doc:name="Expose only the last four digits of a card number." doc:id="58db998b-e7e4-4cd7-bfdc-25beba608e29" /> [STUDIO] -->
+		<set-payload value='#[{"cardNumber":"4111111111111111"}]' doc:name='{"cardNumber":"4111111111111111"}' doc:id="b4d375d7-3258-4028-a772-616616f9f002" />
+		<ee:transform doc:name="{&#10;    cardNumber: payload.cardNumber[-4 to -1]&#10;}" doc:id="228ee88c-0e78-478a-b572-9a2efab2fb12" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    cardNumber: payload.cardNumber[-4 to -1]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
