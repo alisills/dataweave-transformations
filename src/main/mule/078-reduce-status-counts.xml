@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="078-reduce-status-countsFlow" doc:id="2800b403-dd3c-4028-a213-5957aa0859c2" >
+		<http:listener doc:name="Listener" doc:id="4a4a8e37-c92c-4cb4-93dc-d6d46bf35b44" config-ref="HTTP_Listener_config" path="reduce-status-counts"/>
+		<!-- [STUDIO:"Build counts for SUCCESS, FAILED, PENDING, etc."]<set-payload value="#[payload&#93;" doc:name="Build counts for SUCCESS, FAILED, PENDING, etc." doc:id="5b283a99-2c89-4d6d-af82-9ae85bcbd1c0" /> [STUDIO] -->
+		<set-payload value='#[[{"id":1,"status":"SUCCESS"},{"id":2,"status":"FAILED"},{"id":3,"status":"SUCCESS"},{"id":4,"status":"PENDING"},{"id":5,"status":"FAILED"}]]' doc:name='[{"id":1,"status":"SUCCESS"},{"id":2,"status":"FAILED"},{"id":3,"status":"SUCCESS"},{"id":4,"status":"PENDING"},{"id":5,"status":"FAILED"}]' doc:id="61ca8743-973e-4913-acb8-5e7a28b93cdc" />
+	</flow>
+</mule>
