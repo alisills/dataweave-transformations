@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="079-reduce-to-objectFlow" doc:id="6e2c3311-f170-4d3f-a05b-5d88bbbac916" >
+		<http:listener doc:name="Listener" doc:id="6c730cda-09a5-4a91-908d-3287d9bf1271" config-ref="HTTP_Listener_config" path="reduce-to-object"/>
+		<!-- [STUDIO:"Convert [{id,name}] into a keyed object using reduce."]<set-payload value="#[payload&#93;" doc:name="Convert [{id,name}&#93; into a keyed object using reduce." doc:id="476fd43b-2849-4132-9edd-48b707356813" /> [STUDIO] -->
+		<set-payload value='#[[{"id":"C1","name":"Amina"},{"id":"C2","name":"Omar"}]]' doc:name='[{"id":"C1","name":"Amina"},{"id":"C2","name":"Omar"}]' doc:id="6a4d6210-8076-48cd-a96a-0498231f9212" />
+	</flow>
+</mule>
